@@ -11,6 +11,7 @@ minimicrochat.php is the smallest, most compact, chat client I could code and te
 
 ## Quirks
 
+- There is no automatic polling for messages, but since the program auto-focuses to the input field and ignores empty input, you can easily press enter to poll for new messages.
 - By default the last 25 messages are shown.
 - A new table to store messages is created every day, old messages stay in the database but you'd need another simple tool to access them.  To delete the chat log and start anew, simply delete the `yo.sqlite3` file.
 - Users are distinguished by an RGB color generated from their IP address.
