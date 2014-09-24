@@ -5,13 +5,20 @@ minimicrochat.php is the smallest, most compact, chat client I could code and te
 ## Installation Instructions
 
 1. Verify that your hosting environment has sqlite enabled for PHP.  Most do. 
-2. Upload index.php to a folder in the webroot. (ie. public_html/yo/)
+2. Upload `index.php` to a folder in the webroot. (ie. public_html/yo/)
 3. Verify that your script / apache will have access to write the sqlite file to the directory.
 4. Provide a link to the directory (http://yourdomain/yo/) to anyone you want to chat with and begin chatting.
 
+## Quirks
+
+- By default the last 25 messages are shown.
+- A new table to store messages is created every day, old messages stay in the database but you'd need another simple tool to access them.  To delete the chat log and start anew, simply delete the `yo.sqlite3` file.
+- Users are distinguished by an RGB color generated from their IP address.
+
+
 ## The story
 
-A friend of mine had all chat avenues blocked by his company.  We really like chatting during the day, and so I took two hours and banged out the simplest possible php script that would make it so we could easily chat.  My design goals were:
+A friend of mine had all chat avenues blocked by his company.  We really like chatting during the day, and so I took two hours and banged out the simplest possible php script that would make it so we could easily chat, and not be suspicious in any way to his IT department.  My design goals were:
 
 - No AJAX
 - No database server
