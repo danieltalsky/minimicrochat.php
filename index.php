@@ -44,13 +44,13 @@ function createdb() {
 
 function sendmessage($msg) {
 	$dayhash = md5(date('Ymd'));
-	query("INSERT INTO messages_$dayhash (rgb, message) 
+	db()->query("INSERT INTO messages_$dayhash (rgb, message) 
 				VALUES (?, ?)", array(rgbfromip(), $msg));
 }
 
-function getmessages($db, $num=25) {
+function getmessages($num=25) {
 	$dayhash = md5(date('Ymd'));
-	return query("SELECT * FROM messages_$dayhash ORDER BY id DESC LIMIT :num", array($num));
+	return db()->query("SELECT * FROM messages_$dayhash ORDER BY id DESC LIMIT :num", array($num));
 }
 
 function rgbfromip() {
