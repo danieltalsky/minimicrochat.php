@@ -3,7 +3,7 @@
  * minimicrochat.php - the simplest chat server I could write in two hours
  */
 $db = createdb();
-if ($_POST['yo']) { sendmessage($db,$_POST['yo']); }
+if (isset($_POST['yo']) && $_POST['yo']) { sendmessage($db,$_POST['yo']); }
 $res = getmessages($db, 25);
 $msgs = $res->fetchAll();
 ?><!doctype html>
@@ -46,9 +46,10 @@ function sendmessage($db, $msg) {
 }
 function getmessages($db, $num=25) {
     $dayhash = md5(date('Ymd'));
-    $res = $db->query("SELECT * FROM messages_$dayhash 
-                           ORDER BY id DESC LIMIT $num");
-    return $res;
+    $stmt = $db->prepare("SELECT * FROM messages_$dayhash 
+                           ORDER BY id DESC LIMIT :num");
+    $stmt->bindParam(':num', $num);                       
+    return $stmt->execute();
 }
 function rgbfromip() {
     $h = array_map('ord', str_split(md5($_SERVER['REMOTE_ADDR'], true)));
