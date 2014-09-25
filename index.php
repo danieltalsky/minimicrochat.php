@@ -8,7 +8,7 @@ $res = getmessages($db, 25);
 $msgs = $res->fetchAll();
 ?><!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><title>yo</title>
+<head><meta charset="utf-8"><title>yo</title></head>
 <body onload="document.yo.yo.focus();" style="font-size: 12px; font-family: helvetica, sans-serif;">
 <ul>
 <?php if (count($msgs)) { foreach ($msgs as $msg) { ?>
