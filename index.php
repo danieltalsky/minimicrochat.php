@@ -3,7 +3,7 @@
  * minimicrochat.php - the simplest chat server I could write in two hours
  */
 $db = createdb();
-if ($_POST['yo']) { sendmessage($db,$_POST['yo']); }
+if (isset($_POST['yo'])) { sendmessage($db,$_POST['yo']); }
 $res = getmessages($db, 25);
 $msgs = $res->fetchAll();
 ?><!doctype html>
