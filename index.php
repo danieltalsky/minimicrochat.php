@@ -25,29 +25,35 @@ $msgs = $res->fetchAll();
 <?php
 // lib
 function createdb() {
-    $dayhash = md5(date('Ymd'));
     $db = new PDO('sqlite:yo.sqlite3');
     $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-    $db->exec("CREATE TABLE IF NOT EXISTS messages_$dayhash (
+    $db->exec("CREATE TABLE IF NOT EXISTS messages (
+                    Ymd INTEGER,
                     id INTEGER PRIMARY KEY,
                     rgb TEXT, 
                     message TEXT)");
+    $db->exec("CREATE INDEX IF NOT EXISTS messages_index ON messages 
+              (Ymd,id)");
     return $db;
 }
 function sendmessage($db, $msg) {
-    $dayhash = md5(date('Ymd'));
-    $insert = "INSERT INTO messages_$dayhash (rgb, message) 
-                VALUES (:rgb, :message)";
+    $day = intval(date('Ymd'));
+    $insert = "INSERT INTO messages (day, rgb, message) 
+                VALUES (:day, :rgb, :message)";
     $stmt = $db->prepare($insert);
+    $stmt->bindParam(':day', $day);
     $stmt->bindParam(':message', $msg);
     $rgb = rgbfromip();
     $stmt->bindParam(':rgb', $rgb);
     $stmt->execute();
 }
 function getmessages($db, $num=25) {
-    $dayhash = md5(date('Ymd'));
-    $res = $db->query("SELECT * FROM messages_$dayhash 
-                           ORDER BY id DESC LIMIT $num");
+    $day = intval(date('Ymd'));
+    $stmt = $db->prepare("SELECT * FROM messages where day = :day 
+                           ORDER BY id DESC LIMIT :num");
+    $stmt->bindParam(':day', $day);
+    $stmt->bindParam(':num', $num);
+    $res = $stmt->execute();
     return $res;
 }
 function rgbfromip() {
