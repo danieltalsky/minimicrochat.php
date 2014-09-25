@@ -51,7 +51,6 @@ function getmessages($db, $num=25) {
     return $res;
 }
 function rgbfromip() {
-    $ip = $_SERVER['REMOTE_ADDR'];
-    $ipa = explode(".", $ip);
-    return (int)$ipa[1] . ',' . (int)$ipa[2] . ',' . (int)$ipa[3]; 
+    $h = array_map('ord', str_split(md5($_SERVER['REMOTE_ADDR'], true)));
+    return "$h[0],$h[1],$h[2]";    
 } 
